@@ -21,3 +21,21 @@ export const sliderItems = [
     bg: 'fbf0f4',
   },
 ]
+
+export const categories = [
+  {
+    id: 1,
+    img: 'https://media.istockphoto.com/id/1253116831/photo/zero-waste-self-care-kit.jpg?s=612x612&w=0&k=20&c=L3dfYogYtyF6JeIuutsBXy1tnkvX5y-sv1rk0Z-P9M0=',
+    title: 'Beauty',
+  },
+  {
+    id: 2,
+    img: 'https://media.istockphoto.com/id/1264532867/photo/a-neat-flat-lay-minimalistic-still-life-composition-of-school-supplies.jpg?s=612x612&w=0&k=20&c=XQ-XAHIRKF3sWAi9Lwf1UIkDoj6P9qUXKq-F_UkyPnw=',
+    title: 'Designer',
+  },
+  {
+    id: 3,
+    img: 'https://media.istockphoto.com/id/1167434849/photo/still-life-home-decor-on-a-wooden-table.jpg?s=612x612&w=0&k=20&c=-c2CRnAtPfSFC6Cc5ISlaDY-DH4RVqFc5a7OY8xKoaw=',
+    title: 'Home & Living',
+  },
+]
