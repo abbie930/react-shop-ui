@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const Container = styled.div``
 
-const RegisterContainer = styled.div`
+const LoginContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,7 +64,7 @@ const Login = () => {
     <Container>
       <Announcement />
       <Navbar />
-      <RegisterContainer>
+      <LoginContainer>
         <Wrapper>
           <Title>Sign In</Title>
           <Form>
@@ -75,7 +75,7 @@ const Login = () => {
             <Link>Create a new account</Link>
           </Form>
         </Wrapper>
-      </RegisterContainer>
+      </LoginContainer>
     </Container>
   )
 }
