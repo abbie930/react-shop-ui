@@ -40,16 +40,16 @@ const Desc = styled.h3`
 `
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   margin-top: 10px;
 `
 
 const Input = styled.input`
   flex: 1;
-  width: 95%;
   margin: 20px 0px 0px 0px;
   padding: 15px;
   border: 0.5px solid gray;
@@ -61,7 +61,7 @@ const Agreement = styled.span`
 `
 
 const Button = styled.button`
-  width: 40%;
+  /* width: 40%; */
   border: none;
   padding: 15px 20px;
   background-color: #f5e5cc;
