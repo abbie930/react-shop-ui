@@ -3,12 +3,14 @@ import styled from "styled-components"
 import Announcement from "../components/Announcement"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
+import { mobile } from '../responsive'
 
 const Container = styled.div``
 
 const Wrapper = styled.div`
   padding: 20px;
   margin-bottom: 50px;
+  ${mobile({ padding: "10px" })}
 `
 
 const Title = styled.h1`
@@ -22,6 +24,7 @@ const Top = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 10px;
+  ${mobile({ justifyContent: "space-between", marginRight: "20px"})}
 `
 
 const TopButton = styled.button`
@@ -29,14 +32,16 @@ const TopButton = styled.button`
   margin-left: 10px;
   font-weight: 600;
   cursor: pointer;
-  border: ${props => props.type === "filled" && "none"};
-  background-color: ${props => props.type === "filled" ? "black" : "transparent"};
-  color: ${props => props.type === "filled" && "white"};
+  border: ${(props) => props.type === 'filled' && 'none'};
+  background-color: ${(props) => (props.type === 'filled' ? 'black' : 'transparent')};
+  color: ${(props) => props.type === 'filled' && 'white'};
+  ${mobile({ marginLeft: "0px" })}
 `
 
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
+  ${mobile({ flexDirection: "column" })}
 `
 
 const Info = styled.div`
@@ -53,6 +58,7 @@ const InfoTitle = styled.div`
   padding: 10px;
   font-weight: 600;
   font-size: ${(props) => props.type === 'title' && '20px'};
+  ${mobile({ fontSize: '12px' })}
 `
 
 const InfoSubtitleContainer = styled.div`
@@ -81,6 +87,7 @@ const Product = styled.div`
   justify-content: space-between;
   //產品之間的間距
   margin: 40px 0px;
+  ${mobile({ flexDirection: 'column' })}
 `
 
 const ProductDetail = styled.div`
@@ -128,10 +135,12 @@ const ProductAmountContainer = styled.div`
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
+  ${mobile({ margin: "15px", fontSize: "20px" })}
 `
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
+  ${mobile({ fontSize: "20px" })}
 `
 //分線
 const Hr = styled.hr`
