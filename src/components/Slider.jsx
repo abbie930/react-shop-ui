@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons"
 import styled from "styled-components"
+import { StyleSheetManager } from 'styled-components'
 import { sliderItems } from "../data"
 import { useState } from 'react'
 import { mobile } from '../responsive'
@@ -88,28 +89,30 @@ const Slider = () => {
   }
 
   return (
-    <Container>
-      <Arrow direction="left" onClick={() => handleClick('left')}>
-        <ArrowLeftOutlined />
-      </Arrow>
-      <Wrapper slideIndex={slideIndex}>
-        {sliderItems.map((item) => (
-          <Slide bg={item.bg} key={item.id}>
-            <ImgContainer>
-              <Image src={item.img} />
-            </ImgContainer>
-            <InfoContainer>
-              <Title>{item.title}</Title>
-              <Desc>{item.desc}</Desc>
-              <Button>Shop Now</Button>
-            </InfoContainer>
-          </Slide>
-        ))}
-      </Wrapper>
-      <Arrow direction="right" onClick={() => handleClick('right')}>
-        <ArrowRightOutlined />
-      </Arrow>
-    </Container>
+    <StyleSheetManager shouldForwardProp={(prop) => prop[0] !== '$'}>
+      <Container>
+        <Arrow direction="left" onClick={() => handleClick('left')}>
+          <ArrowLeftOutlined />
+        </Arrow>
+        <Wrapper slideIndex={slideIndex}>
+          {sliderItems.map((item) => (
+            <Slide bg={item.bg} key={item.id}>
+              <ImgContainer>
+                <Image src={item.img} />
+              </ImgContainer>
+              <InfoContainer>
+                <Title>{item.title}</Title>
+                <Desc>{item.desc}</Desc>
+                <Button>Shop Now</Button>
+              </InfoContainer>
+            </Slide>
+          ))}
+        </Wrapper>
+        <Arrow direction="right" onClick={() => handleClick('right')}>
+          <ArrowRightOutlined />
+        </Arrow>
+      </Container>
+    </StyleSheetManager>
   )
 }
 
