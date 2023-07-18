@@ -5,6 +5,9 @@ import Newsletter from "../components/Newsletter"
 import Footer from "../components/Footer"
 import { Add, Remove } from "@material-ui/icons"
 import { mobile } from '../responsive'
+import { useLocation } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { publicRequest } from "../requestMethods"
 
 const Container = styled.div`
 `
@@ -110,38 +113,44 @@ const Button = styled.button`
 `
 
 const Product = () => {
+  const location = useLocation()
+  const id = location.pathname.split('/')[2]
+  const [product, setProduct] = useState({})
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get('/products/find/' + id)
+        setProduct(res.data)
+      } catch {
+      }
+    }
+    getProduct()
+  },[id])
+
+
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>T-shirt</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, voluptates asperiores hic impedit
-            architecto rem nihil, aut eius ducimus rerum eos commodi iusto. Veniam rem tenetur accusamus exercitationem
-            nulla molestiae?
-          </Desc>
-          <Price>NTD 390</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>NTD.{product.price}</Price>
           {/* Filter */}
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="orange" />
-              <FilterColor color="lightblue" />
+              <FilterColor color={product.color} />
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>LX</FilterSizeOption>
+                <FilterSizeOption>{product.size}</FilterSizeOption>
               </FilterSize>
             </Filter>
           </FilterContainer>
