@@ -116,18 +116,30 @@ const Product = () => {
   const location = useLocation()
   const id = location.pathname.split('/')[2]
   const [product, setProduct] = useState({})
+  const [quantity, setQuantity] = useState(1)
+
+  // Convert product.color and product.size to arrays
+  const colors = Array.isArray(product.color) ? product.color : [product.color]
+  const sizes = Array.isArray(product.size) ? product.size : [product.size]
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         const res = await publicRequest.get('/products/find/' + id)
         setProduct(res.data)
-      } catch {
-      }
+      } catch {}
     }
     getProduct()
-  },[id])
+  }, [id])
 
+  const handleQuantity = (type) => {
+    // 確保數量不會小於 1
+    if (type === 'dec' && quantity > 1) {
+      setQuantity(quantity - 1)
+    } else if (type === 'inc') {
+      setQuantity(quantity + 1)
+    }
+  }
 
   return (
     <Container>
@@ -145,21 +157,25 @@ const Product = () => {
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color={product.color} />
+              {colors.map((c) => (
+                <FilterColor color={c} key={c} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize>
-                <FilterSizeOption>{product.size}</FilterSizeOption>
+                {sizes?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           {/* ADD */}
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity('dec')} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
             <Button>ADD TO CART</Button>
           </AddContainer>
