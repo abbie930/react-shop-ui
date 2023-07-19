@@ -107,25 +107,31 @@ const Details = styled.div`
   justify-content: space-around;
 `
 
-const ProductName = styled.span``
+const ProductName = styled.span`
+  margin-bottom: 10px;
+`
 
-const ProductId = styled.span``
+const ProductId = styled.span`
+  margin-bottom: 10px;
+`
 
 const ProductColor = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
+  margin-bottom: 10px;
 `
 
-const ProductSize = styled.span``
+const ProductSize = styled.span`
+`
 
 const PriceDetail = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center;/* margin-bottom: 20px; */
 `
 
 const ProductAmountContainer = styled.div`
@@ -134,12 +140,12 @@ const ProductAmountContainer = styled.div`
   margin-bottom: 20px;
 `
 const ProductAmount = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   margin: 5px;
   ${mobile({ margin: "15px", fontSize: "20px" })}
 `
 const ProductPrice = styled.div`
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 200;
   ${mobile({ fontSize: '20px' })};
   /* Add a space after "NTD" */
