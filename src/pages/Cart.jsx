@@ -4,6 +4,7 @@ import Announcement from "../components/Announcement"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import { mobile } from '../responsive'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div``
 
@@ -140,7 +141,11 @@ const ProductAmount = styled.div`
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
-  ${mobile({ fontSize: "20px" })}
+  ${mobile({ fontSize: '20px' })};
+  /* Add a space after "NTD" */
+  &:before {
+    content: 'NTD ';
+  }
 `
 //分線
 const Hr = styled.hr`
@@ -184,6 +189,8 @@ const Button = styled.button`
 
 
 const Cart = () => {
+  const cart = useSelector(state => state.cart)
+  console.log(cart)
   return (
     <Container>
       <Navbar />
@@ -204,57 +211,38 @@ const Cart = () => {
               </InfoSubtitleContainer>
             </InfoTitleContainer>
             <InfoHr></InfoHr>
-            <Product>
-              <ProductDetail>
-                <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> T-shirt
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 9454778901
-                  </ProductId>
-                  <ProductColor color="orange" />
-                  <ProductSize>
-                    <b>Size:</b> S
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>NTD 780</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr></Hr>
-            <Product>
-              <ProductDetail>
-                <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> T-shirt
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 9454778901
-                  </ProductId>
-                  <ProductColor color="orange" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>NTD 390</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product, index) => (
+              //  wrapping each product and the separator with a <div> element to ensure there is spacing between each product.
+              <div key={product._id}>
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.img} />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> {product.title}
+                      </ProductName>
+                      <ProductId>
+                        <b>ID:</b> {product._id}
+                      </ProductId>
+                      <ProductColor color={product.color} />
+                      <ProductSize>
+                        <b>Size:</b> {product.size}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Add />
+                      <ProductAmount>{product.quantity}</ProductAmount>
+                      <Remove />
+                    </ProductAmountContainer>
+                    <ProductPrice>{product.price * product.quantity}</ProductPrice>
+                  </PriceDetail>
+                </Product>
+                {/*  used the index variable to check whether it is the last product, and if not, we add the <Hr /> */}
+                {index < cart.products.length - 1 && <Hr />}
+              </div>
+            ))}
             <Hr></Hr>
           </Info>
           <Summary>
