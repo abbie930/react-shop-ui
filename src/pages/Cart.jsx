@@ -212,7 +212,7 @@ const Cart = () => {
             <InfoTitleContainer>
               <InfoTitle type="title">Item Summary</InfoTitle>
               <InfoSubtitleContainer>
-                <InfoTitle>Shopping Bag(2)</InfoTitle>
+                <InfoTitle>Shopping Bag({cart.quantity})</InfoTitle>
                 <InfoTitle>Your Wishlist(0)</InfoTitle>
               </InfoSubtitleContainer>
             </InfoTitleContainer>
@@ -255,7 +255,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>NTD 1170</SummaryItemPrice>
+              <SummaryItemPrice>NTD {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -267,7 +267,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>NTD 1170</SummaryItemPrice>
+              <SummaryItemPrice>NTD {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>
