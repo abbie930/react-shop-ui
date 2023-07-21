@@ -63,6 +63,11 @@ const Logo = styled.h1`
   ${mobile({ fontSize: '24px' })}
 `
 
+const StyledLink = styled(Link)`
+  text-decoration: none; /* 移除底線 */
+  color: #3d3c3c;
+`
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -111,7 +116,9 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-          <Logo>YC.Selected</Logo>
+          <StyledLink to="/">
+            <Logo>YC.Selected</Logo>
+          </StyledLink>
         </Left>
         <Center></Center>
         <Right>
