@@ -22,15 +22,16 @@ const Products = ({ category, filters, sort }) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios
-          .get(
-            category ? `http://localhost:8000/api/products?category=${category}` : 'http://localhost:8000/api/products'
-          )
+        const res = await axios.get(
+          category ? `http://localhost:8000/api/products?category=${category}` : 'http://localhost:8000/api/products'
+        )
         // console.log(res)
         setProducts(res.data)
       } catch (err) {}
     }
     getProducts()
+    // reset scroll position to top when the component mounts or the category changes
+    window.scrollTo(0, 0)
   }, [category])
 
   useEffect(() => {
