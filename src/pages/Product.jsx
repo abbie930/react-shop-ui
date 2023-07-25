@@ -135,6 +135,8 @@ const Product = () => {
       } catch {}
     }
     getProduct()
+    // reset scroll position to top when the component mounts or the category changes
+    window.scrollTo(0, 0)
   }, [id])
 
   const handleQuantity = (type) => {
@@ -181,7 +183,7 @@ const Product = () => {
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize onChange={handleSizeChange}>
-                {sizes?.map((s) => (
+                {sizes.map((s) => (
                   <FilterSizeOption key={s}>{s}</FilterSizeOption>
                 ))}
               </FilterSize>
