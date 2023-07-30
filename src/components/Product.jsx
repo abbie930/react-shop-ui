@@ -23,31 +23,49 @@ const Info = styled.div`
 const Container = styled.div`
   flex:1;
   margin: 5px;
-  min-width: 280px;
-  height: 350px;
+  min-width: 250px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5fbfd;
+  background-color: transparent;
   position: relative;
+  
   
   // 當滑鼠停在當前元素時，讓 Info 顯現出來
   &:hover ${Info}{
     opacity: 1;
   }
 `
-const Circle = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-color: white;
+
+const ProductInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  // 位於容器的頂部
   position: absolute;
+  top: 0;
 `
+
 const Image = styled.img`
-  height: 75%;
-  // in front of the circle
-  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
 `
+
+const ProductTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+const Title = styled.span`
+  margin-bottom: 5px;
+`
+
+const Price = styled.span`
+  font-size: 14px;
+  margin-bottom: 5px;
+`
+
 const Icon = styled.div`
   width: 40px;
   height: 40px;
@@ -76,8 +94,13 @@ const Icon = styled.div`
 const Product = ({item}) => {
   return (
     <Container>
-      <Circle />
-      <Image src={item.img} />
+      <ProductInfo>
+        <Image src={item.img} />
+        <ProductTitle>
+          <Title>{item.title}</Title>
+          <Price>NTD {item.price}</Price>
+        </ProductTitle>
+      </ProductInfo>
       <Info>
         <Icon>
           <ShoppingCartOutlined />
@@ -87,7 +110,7 @@ const Product = ({item}) => {
         </Icon>
         <Icon>
           <Link to={`/product/${item._id}`}>
-          <SearchOutlined />
+            <SearchOutlined />
           </Link>
         </Icon>
       </Info>
