@@ -23,7 +23,7 @@ const Products = ({ category, filters, sort }) => {
     const getProducts = async () => {
       try {
         const res = await axios.get(
-          category ? `http://localhost:8000/api/products?category=${category}` : 'http://localhost:8000/api/products'
+          category ? `http://localhost:8000/api/product?category=${category}` : 'http://localhost:8000/api/product'
         )
         // console.log(res)
         setProducts(res.data)

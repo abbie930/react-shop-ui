@@ -119,18 +119,19 @@ const Product = () => {
   const id = location.pathname.split('/')[2]
   const [product, setProduct] = useState({})
   const [quantity, setQuantity] = useState(1)
-  const [color, setColor] = useState('')
+  const [color, setColor] = useState([])
   // const [size, setSize] = useState('')
   const dispatch = useDispatch()
 
   // Convert product.color and product.size to arrays
   const colors = Array.isArray(product.color) ? product.color : [product.color]
   const sizes = Array.isArray(product.size) ? product.size : [product.size]
+  
 
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get('/products/find/' + id)
+        const res = await publicRequest.get('/product/find/' + id)
         setProduct(res.data)
       } catch {}
     }
