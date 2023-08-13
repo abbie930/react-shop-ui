@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux'
 
 function App() {
   const user = useSelector((state) => state.user.currentUser)
+  const reduxState = useSelector((state) => state)
+  console.log('currentState:', reduxState)
   return (
     <Router>
       <Routes>

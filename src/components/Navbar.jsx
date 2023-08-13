@@ -4,8 +4,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { logout } from '../redux/authRedux'
+import { Link } from 'react-router-dom'
+import { setLogout } from '../redux/userRedux'
 import { persistor } from '../redux/store'
 
 const Container = styled.div`
@@ -115,32 +115,17 @@ const Navbar = () => {
   }, [])
 
   // const authState = useSelector((state) => state.auth.isLoggedIn);
-  const userState = useSelector((state) => state.user.currentUser);
+  const userState = useSelector((state) => state.user.currentUser)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
-  
   const handleLogout = () => {
-    console.log('Logout button clicked!')
     // 觸發登出action
-    dispatch(logout())
-    console.log('currentUser1:', userState)
-    // 清除本地存儲的用戶資料，如果有的話
-    // localStorage.removeItem('userData')
-  
+    dispatch(setLogout())
     // 清除 Redux Persist儲存的狀態
     persistor.purge()
-    // // 導向登入畫面
-    navigate('/login', { replace: true })
+    // 導向登入畫面
+    // navigate('/login', { replace: true })
   }
-
-  // useEffect(() => {
-  //   // Listen for changes in userState
-  //   // When user logs out (userState becomes null or undefined), navigate to the login page
-  //   if (!userState) {
-  //     navigate('/login', { replace: true })
-  //   }
-  // }, [userState, navigate])
 
   return (
     <Container>
