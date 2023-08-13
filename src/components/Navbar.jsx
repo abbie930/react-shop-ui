@@ -83,6 +83,28 @@ const MenuItem = styled.div`
   cursor: pointer;
   margin-left: 20px;
   color: #464242;
+  //當滑鼠懸停時
+  &:hover {
+    // 放大的動畫效果
+    transform: scale(1.05);
+  }
+  ${mobile({ fontSize: '12px', marginLeft: '10px' })}
+`
+
+const Button = styled.button`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 20px;
+  padding: 6px;
+  color: #464242;
+  background-color: #f0d09d;
+  border: none;
+  border-radius: 10%;
+  //當滑鼠懸停時
+  &:hover {
+    // 放大的動畫效果
+    transform: scale(1.05);
+  }
   ${mobile({ fontSize: '12px', marginLeft: '10px' })}
 `
 
@@ -144,7 +166,7 @@ const Navbar = () => {
             </SearchIconContainer>
           </SearchContainer>
           {userState ? (
-            <button onClick={handleLogout}>Logout</button>
+            <Button onClick={handleLogout}>Logout</Button>
           ) : (
             <Link to="/login">
               <MenuItem>
