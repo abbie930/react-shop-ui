@@ -8,7 +8,7 @@ import { mobile } from '../responsive'
 import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { publicRequest } from "../requestMethods"
-import { addProduct, setSize } from "../redux/cartRedux"
+import { addProduct } from "../redux/cartRedux"
 import { useDispatch } from 'react-redux'
 
 const Container = styled.div`
@@ -119,21 +119,24 @@ const Product = () => {
   const id = location.pathname.split('/')[2]
   const [product, setProduct] = useState({})
   const [quantity, setQuantity] = useState(1)
-  const [color, setColor] = useState([])
-  // const [size, setSize] = useState('')
+  const [color, setColor] = useState('')
+  const [size, setSize] = useState('')
   const dispatch = useDispatch()
 
-  // Convert product.color and product.size to arrays
-  const colors = Array.isArray(product.color) ? product.color : [product.color]
-  const sizes = Array.isArray(product.size) ? product.size : [product.size]
-  
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         const res = await publicRequest.get('/product/find/' + id)
-        setProduct(res.data)
-      } catch {}
+        const productData = res.data
+
+        productData.color = JSON.parse(productData.color)
+        productData.size = JSON.parse(productData.size)
+        console.log(productData)
+        setProduct(productData)
+      } catch(err) { 
+        console.error(err)
+      }
     }
     getProduct()
     // reset scroll position to top when the component mounts or the category changes
@@ -152,14 +155,14 @@ const Product = () => {
    const handleClick = () => {
     //update cart
     dispatch(
-      addProduct({ ...product, quantity, color })
+      addProduct({ ...product, quantity, color, size })
     )
    }
 
-   const handleSizeChange = (event) => {
-     const selectedSize = event.target.value
-     dispatch(setSize(selectedSize))
-   }
+  //  const handleSizeChange = (event) => {
+  //    const selectedSize = event.target.value
+  //    dispatch(setSize(selectedSize))
+  //  }
 
   return (
     <Container>
@@ -177,14 +180,14 @@ const Product = () => {
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              {colors.map((c) => (
+              {product.color?.map((c) => (
                 <FilterColor color={c} key={c} onClick={() => setColor(c)} />
               ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize onChange={handleSizeChange}>
-                {sizes.map((s) => (
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size?.map((s) => (
                   <FilterSizeOption key={s}>{s}</FilterSizeOption>
                 ))}
               </FilterSize>
