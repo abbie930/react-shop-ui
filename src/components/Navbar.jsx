@@ -3,8 +3,10 @@ import { AccountCircleOutlined, Search, ShoppingCartOutlined } from '@material-u
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { mobile } from '../responsive'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { logout } from '../redux/authRedux'
+import { persistor } from '../redux/store'
 
 const Container = styled.div`
   height: 60px;
@@ -112,6 +114,34 @@ const Navbar = () => {
     // 僅在組件初次渲染時執行一次
   }, [])
 
+  // const authState = useSelector((state) => state.auth.isLoggedIn);
+  const userState = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  
+  const handleLogout = () => {
+    console.log('Logout button clicked!')
+    // 觸發登出action
+    dispatch(logout())
+    console.log('currentUser1:', userState)
+    // 清除本地存儲的用戶資料，如果有的話
+    // localStorage.removeItem('userData')
+  
+    // 清除 Redux Persist儲存的狀態
+    persistor.purge()
+    // // 導向登入畫面
+    navigate('/login', { replace: true })
+  }
+
+  // useEffect(() => {
+  //   // Listen for changes in userState
+  //   // When user logs out (userState becomes null or undefined), navigate to the login page
+  //   if (!userState) {
+  //     navigate('/login', { replace: true })
+  //   }
+  // }, [userState, navigate])
+
   return (
     <Container>
       <Wrapper>
@@ -128,11 +158,15 @@ const Navbar = () => {
               <Search style={{ color: 'gray', fontSize: 16 }} />
             </SearchIconContainer>
           </SearchContainer>
-          <Link to="/login">
-            <MenuItem>
-              <AccountCircleOutlined />
-            </MenuItem>
-          </Link>
+          {userState ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <Link to="/login">
+              <MenuItem>
+                <AccountCircleOutlined />
+              </MenuItem>
+            </Link>
+          )}
           <Link to="/cart">
             <MenuItem>
               <Badge overlap="rectangular" badgeContent={quantity} color="primary">
