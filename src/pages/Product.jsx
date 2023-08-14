@@ -8,7 +8,7 @@ import { mobile } from '../responsive'
 import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { publicRequest } from "../requestMethods"
-import { addProduct } from "../redux/cartRedux"
+import { addProduct } from "../redux/cartSlice"
 import { useDispatch } from 'react-redux'
 
 const Container = styled.div`

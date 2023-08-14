@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { mobile } from '../responsive'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../redux/apiCalls'
+import { loginAuth } from '../redux/apiCalls'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div``
@@ -107,7 +107,7 @@ const Login = () => {
 
   const handleClick = (e) => {
     e.preventDefault()
-    login(dispatch, { username, password })
+    loginAuth(dispatch, { username, password })
   }
 
   return (

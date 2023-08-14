@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { setLogout } from '../redux/userRedux'
+import { setLogout } from '../redux/userSlice'
 import { persistor } from '../redux/store'
 
 const Container = styled.div`
