@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { registerAuth } from '../requestMethods'
+import { registerAuth } from '../redux/apiCalls'
 import Swal from 'sweetalert2'
 
 const Container = styled.div``

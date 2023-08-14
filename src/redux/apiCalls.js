@@ -10,3 +10,20 @@ export const login = async (dispatch, user) => {
     dispatch(loginFailure())
   }
 }
+
+export const registerAuth = async (data) => {
+  try {
+    const response = await publicRequest.post(`/auth/register`, {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword
+    })
+    if (response.status === 201) {
+      return response
+    }
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data.message)
+  }
+}
