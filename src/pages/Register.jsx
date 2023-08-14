@@ -172,9 +172,9 @@ const Register = () => {
         title: 'Sing up failed!',
         icon: 'error',
         html: `<p>${errorMsg}</p>`,
-        showConfirmButton: true,
+        showConfirmButton: false,
         timer: 5000,
-        position: 'center'
+        position: 'top'
       })
     }
   }
