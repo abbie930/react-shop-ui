@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Announcement from "../components/Announcement"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
+import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
 import { useSelector } from 'react-redux'
 
@@ -184,14 +185,6 @@ const SummaryItemText = styled.span``
 
 const SummaryItemPrice = styled.span``
 
-const Button = styled.button`
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  font-weight: 600;
-`
 
 
 const Cart = () => {
@@ -269,7 +262,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>NTD {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <PayButton cartItems={cart.products} />
           </Summary>
         </Bottom>
         <Note>Availability and pricing for items in bag are not guaranteed until checkout is complete</Note>
