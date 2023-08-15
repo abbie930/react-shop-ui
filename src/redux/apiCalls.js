@@ -7,7 +7,6 @@ export const loginAuth = async (dispatch, user) => {
     const res = await publicRequest.post('/auth/login', user)
     dispatch(loginSuccess(res.data))
   } catch (err) {
-    console.log(err)
     dispatch(loginFailure(err.response.data.message))
   }
 }
@@ -24,7 +23,6 @@ export const registerAuth = async (data) => {
       return response
     }
   } catch (error) {
-    console.log(error)
     throw new Error(error.response.data.message)
   }
 }

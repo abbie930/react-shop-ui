@@ -105,9 +105,14 @@ const Login = () => {
   const dispatch = useDispatch()
   const { isFetching, error } = useSelector((state) => state.user)
 
-  const handleClick = (e) => {
+
+  const handleClick = async (e) => {
     e.preventDefault()
-    loginAuth(dispatch, { username, password })
+    try {
+      await loginAuth(dispatch, { username, password })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -122,9 +127,9 @@ const Login = () => {
             <Input placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)} />
             <ForgetLink>Forgot password?</ForgetLink>
             <Button onClick={handleClick} disabled={isFetching}>
-              SIGN IN
+              {isFetching ? 'Logging in...' : 'SIGN IN'}
             </Button>
-            {error && <Error>Something went wrong...</Error>}
+            {error && <Error>{error}</Error>}
             <RegisterButton>
               <Or>Don’t have an account?</Or>
               <StyledLinkButton to="/register">Create a new account</StyledLinkButton>
