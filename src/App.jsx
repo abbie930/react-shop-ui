@@ -5,9 +5,9 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Cart from './pages/Cart'
 import CheckoutSuccess from './pages/CheckoutSuccess'
+import NotFound from './pages/NotFound'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 
 function App() {
   const user = useSelector((state) => state.user.currentUser)
@@ -23,6 +23,7 @@ function App() {
         <Route path="/checkout-success" element={<CheckoutSuccess />}></Route>
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}></Route>
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register />}></Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )
