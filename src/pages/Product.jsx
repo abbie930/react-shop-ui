@@ -152,17 +152,12 @@ const Product = () => {
     }
   }
 
-   const handleClick = () => {
+   const handleAddToCart = () => {
     //update cart
     dispatch(
       addProduct({ ...product, quantity, color, size })
     )
    }
-
-  //  const handleSizeChange = (event) => {
-  //    const selectedSize = event.target.value
-  //    dispatch(setSize(selectedSize))
-  //  }
 
   return (
     <Container>
@@ -200,7 +195,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
+            <Button onClick={handleAddToCart}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

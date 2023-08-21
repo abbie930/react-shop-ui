@@ -8,6 +8,8 @@ import CheckoutSuccess from './pages/CheckoutSuccess'
 import NotFound from './pages/NotFound'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   const user = useSelector((state) => state.user.currentUser)
@@ -15,6 +17,7 @@ function App() {
   console.log('currentState:', reduxState)
   return (
     <Router>
+      <ToastContainer autoClose={2000} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/products/:category/" element={<ProductList />}></Route>
