@@ -1,4 +1,4 @@
-import { Add, Remove } from '@material-ui/icons'
+import { Delete } from '@material-ui/icons'
 import styled from 'styled-components'
 import Announcement from '../components/Announcement'
 import Footer from '../components/Footer'
@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Container = styled.div``
 
@@ -38,6 +39,12 @@ const TopButton = styled.button`
   background-color: ${(props) => (props.type === 'filled' ? 'black' : 'transparent')};
   color: ${(props) => props.type === 'filled' && 'white'};
   ${mobile({ marginLeft: '0px' })}
+`
+
+const CustomLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
 `
 
 const Bottom = styled.div`
@@ -142,16 +149,31 @@ const PriceDetail = styled.div`
   justify-content: center; /* margin-bottom: 20px; */
 `
 
-const ProductAmountContainer = styled.div`
+const ProductQuantityContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
+  width: 100px;
+  max-width: 100%;
+  border: 0.5px solid rgb(177, 177, 177);
+  border-radius: 5px;
 `
-const ProductAmount = styled.div`
-  font-size: 20px;
+const ProductQuantity = styled.div`
+  font-size: 18px;
   margin: 5px;
   ${mobile({ margin: '15px', fontSize: '20px' })}
 `
+
+const Button = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0.2rem 1rem;
+  font-size: 16px;
+  cursor: pointer;
+`
+
 const ProductPrice = styled.div`
   font-size: 24px;
   font-weight: 200;
@@ -161,6 +183,20 @@ const ProductPrice = styled.div`
     content: 'NTD ';
   }
 `
+const RemoveButton = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  color: gray;
+  margin-top: 1rem;
+  cursor: pointer;
+  text-align: start;
+
+  &:hover {
+    color: black;
+  }
+`
+
 //分線
 const Hr = styled.hr`
   width: 90%;
@@ -192,6 +228,12 @@ const SummaryItemText = styled.span``
 
 const SummaryItemPrice = styled.span``
 
+const SummaryNote = styled.p`
+  margin-top: 10px;
+  font-size: 14px;
+  color: #9f9d9d;
+`
+
 const Cart = () => {
   const cart = useSelector((state) => state.cart)
   console.log('cart', cart)
@@ -202,8 +244,13 @@ const Cart = () => {
       <Wrapper>
         <Title>Shopping Bag</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+          <TopButton>
+            <CustomLink to="/">CONTINUE SHOPPING</CustomLink>
+          </TopButton>
+          <TopButton type="filled">
+            Clear Cart
+            <Delete style={{ fontSize: '16px', paddingLeft: '2px' }} />
+          </TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -223,7 +270,7 @@ const Cart = () => {
                   <div key={product._id}>
                     <Product>
                       <ProductDetail>
-                        <Image src={product.img} />
+                        <Image src={product.img} alt={product.title} />
                         <Details>
                           <ProductName>
                             <b>Product:</b> {product.title}
@@ -235,14 +282,18 @@ const Cart = () => {
                           <ProductSize>
                             <b>Size:</b> {product.size}
                           </ProductSize>
+                          <RemoveButton>
+                            Remove
+                            <Delete style={{ fontSize: '16px', paddingLeft: '1px' }} />
+                          </RemoveButton>
                         </Details>
                       </ProductDetail>
                       <PriceDetail>
-                        <ProductAmountContainer>
-                          <Add />
-                          <ProductAmount>{product.quantity}</ProductAmount>
-                          <Remove />
-                        </ProductAmountContainer>
+                        <ProductQuantityContainer>
+                          <Button>-</Button>
+                          <ProductQuantity>{product.quantity}</ProductQuantity>
+                          <Button>+</Button>
+                        </ProductQuantityContainer>
                         <ProductPrice>{product.price * product.quantity}</ProductPrice>
                       </PriceDetail>
                     </Product>
@@ -272,6 +323,7 @@ const Cart = () => {
               <SummaryItemPrice>NTD {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <PayButton cartItems={cart.products} />
+            <SummaryNote>Taxes and shipping calculated at checkout.</SummaryNote>
           </Summary>
         </Bottom>
         <Note>Availability and pricing for items in bag are not guaranteed until checkout is complete</Note>
