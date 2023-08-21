@@ -1,8 +1,8 @@
-import { Add, Remove } from "@material-ui/icons"
-import styled from "styled-components"
-import Announcement from "../components/Announcement"
-import Footer from "../components/Footer"
-import Navbar from "../components/Navbar"
+import { Add, Remove } from '@material-ui/icons'
+import styled from 'styled-components'
+import Announcement from '../components/Announcement'
+import Footer from '../components/Footer'
+import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
 import { useSelector } from 'react-redux'
@@ -12,13 +12,13 @@ const Container = styled.div``
 const Wrapper = styled.div`
   padding: 20px;
   margin-bottom: 50px;
-  ${mobile({ padding: "10px" })}
+  ${mobile({ padding: '10px' })}
 `
 
 const Title = styled.h1`
- font-weight: 300;
- text-align: start;
- padding: 20px 0px 0px 10px;
+  font-weight: 300;
+  text-align: start;
+  padding: 20px 0px 0px 10px;
 `
 
 const Top = styled.div`
@@ -26,7 +26,7 @@ const Top = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 10px;
-  ${mobile({ justifyContent: "space-between", marginRight: "20px"})}
+  ${mobile({ justifyContent: 'space-between', marginRight: '20px' })}
 `
 
 const TopButton = styled.button`
@@ -37,13 +37,13 @@ const TopButton = styled.button`
   border: ${(props) => props.type === 'filled' && 'none'};
   background-color: ${(props) => (props.type === 'filled' ? 'black' : 'transparent')};
   color: ${(props) => props.type === 'filled' && 'white'};
-  ${mobile({ marginLeft: "0px" })}
+  ${mobile({ marginLeft: '0px' })}
 `
 
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
+  ${mobile({ flexDirection: 'column' })}
 `
 
 const Info = styled.div`
@@ -77,6 +77,14 @@ const InfoHr = styled.hr`
   background-color: #d1cfcf;
   border: none;
   height: 1.5px;
+`
+
+const CartEmpty = styled.p`
+  height: 75%;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const Note = styled.div`
@@ -124,15 +132,14 @@ const ProductColor = styled.div`
   margin-bottom: 10px;
 `
 
-const ProductSize = styled.span`
-`
+const ProductSize = styled.span``
 
 const PriceDetail = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;/* margin-bottom: 20px; */
+  justify-content: center; /* margin-bottom: 20px; */
 `
 
 const ProductAmountContainer = styled.div`
@@ -143,7 +150,7 @@ const ProductAmountContainer = styled.div`
 const ProductAmount = styled.div`
   font-size: 20px;
   margin: 5px;
-  ${mobile({ margin: "15px", fontSize: "20px" })}
+  ${mobile({ margin: '15px', fontSize: '20px' })}
 `
 const ProductPrice = styled.div`
   font-size: 24px;
@@ -185,11 +192,9 @@ const SummaryItemText = styled.span``
 
 const SummaryItemPrice = styled.span``
 
-
-
 const Cart = () => {
-  const cart = useSelector(state => state.cart)
-  console.log(cart)
+  const cart = useSelector((state) => state.cart)
+  console.log('cart', cart)
   return (
     <Container>
       <Navbar />
@@ -210,39 +215,43 @@ const Cart = () => {
               </InfoSubtitleContainer>
             </InfoTitleContainer>
             <InfoHr></InfoHr>
-            {cart.cartItems.map((product, index) => (
-              //  wrapping each product and the separator with a <div> element to ensure there is spacing between each product.
-              <div key={product._id}>
-                <Product>
-                  <ProductDetail>
-                    <Image src={product.img} />
-                    <Details>
-                      <ProductName>
-                        <b>Product:</b> {product.title}
-                      </ProductName>
-                      <ProductId>
-                        <b>ID:</b> {product._id}
-                      </ProductId>
-                      <ProductColor color={product.color} />
-                      <ProductSize>
-                        <b>Size:</b> {product.size}
-                      </ProductSize>
-                    </Details>
-                  </ProductDetail>
-                  <PriceDetail>
-                    <ProductAmountContainer>
-                      <Add />
-                      <ProductAmount>{product.quantity}</ProductAmount>
-                      <Remove />
-                    </ProductAmountContainer>
-                    <ProductPrice>{product.price * product.quantity}</ProductPrice>
-                  </PriceDetail>
-                </Product>
-                {/*  used the index variable to check whether it is the last product, and if not, we add the <Hr /> */}
-                {index < cart.cartItems.length - 1 && <Hr />}
-              </div>
-            ))}
-            <Hr></Hr>
+            {cart.cartItems.length === 0 ? (
+              <CartEmpty>Your cart is currently empty!</CartEmpty>
+            ) : (
+              <>
+                {cart.cartItems.map((product, index) => (
+                  <div key={product._id}>
+                    <Product>
+                      <ProductDetail>
+                        <Image src={product.img} />
+                        <Details>
+                          <ProductName>
+                            <b>Product:</b> {product.title}
+                          </ProductName>
+                          <ProductId>
+                            <b>ID:</b> {product._id}
+                          </ProductId>
+                          <ProductColor color={product.color} />
+                          <ProductSize>
+                            <b>Size:</b> {product.size}
+                          </ProductSize>
+                        </Details>
+                      </ProductDetail>
+                      <PriceDetail>
+                        <ProductAmountContainer>
+                          <Add />
+                          <ProductAmount>{product.quantity}</ProductAmount>
+                          <Remove />
+                        </ProductAmountContainer>
+                        <ProductPrice>{product.price * product.quantity}</ProductPrice>
+                      </PriceDetail>
+                    </Product>
+                    {index < cart.cartItems.length - 1 && <Hr />}
+                  </div>
+                ))}
+                <Hr></Hr>
+              </>
+            )}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
