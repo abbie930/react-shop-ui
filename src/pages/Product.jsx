@@ -5,7 +5,7 @@ import Newsletter from "../components/Newsletter"
 import Footer from "../components/Footer"
 import { Add, Remove } from "@material-ui/icons"
 import { mobile } from '../responsive'
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from "react"
 import { publicRequest } from "../requestMethods"
 import { addProduct } from "../redux/cartSlice"
@@ -122,6 +122,7 @@ const Product = () => {
   const [color, setColor] = useState('')
   const [size, setSize] = useState('')
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -157,6 +158,7 @@ const Product = () => {
     dispatch(
       addProduct({ ...product, quantity, color, size })
     )
+    navigate('/cart')
    }
 
   return (

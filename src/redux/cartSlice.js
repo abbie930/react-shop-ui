@@ -4,20 +4,22 @@ import { toast } from 'react-toastify'
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    products: [],
-    quantity: 0,
-    total: 0
+    cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
+    quantity: localStorage.getItem('quantity') ? JSON.parse(localStorage.getItem('quantity')) : 0,
+    total: localStorage.getItem('total') ? JSON.parse(localStorage.getItem('total')) : 0
   },
   reducers: {
     addProduct: (state, action) => {
       state.quantity += 1
-      state.products.push(action.payload)
+      state.cartItems.push(action.payload)
       // add toast msg
       toast.success(`${action.payload.title} added to cart`, {
         position: 'bottom-left'
       })
       state.total += action.payload.price * action.payload.quantity
-      state.size = action.payload
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+      localStorage.setItem('quantity', JSON.stringify(state.quantity))
+      localStorage.setItem('total', JSON.stringify(state.total))
     },
     setSize: (state, action) => {
       state.size = action.payload

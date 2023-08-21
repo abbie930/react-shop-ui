@@ -210,7 +210,7 @@ const Cart = () => {
               </InfoSubtitleContainer>
             </InfoTitleContainer>
             <InfoHr></InfoHr>
-            {cart.products.map((product, index) => (
+            {cart.cartItems.map((product, index) => (
               //  wrapping each product and the separator with a <div> element to ensure there is spacing between each product.
               <div key={product._id}>
                 <Product>
@@ -239,7 +239,7 @@ const Cart = () => {
                   </PriceDetail>
                 </Product>
                 {/*  used the index variable to check whether it is the last product, and if not, we add the <Hr /> */}
-                {index < cart.products.length - 1 && <Hr />}
+                {index < cart.cartItems.length - 1 && <Hr />}
               </div>
             ))}
             <Hr></Hr>
