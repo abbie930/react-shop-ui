@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCart, decreaseCart, increaseCart } from '../redux/cartSlice'
+import { removeFromCart, decreaseCart, increaseCart, clearCart } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div``
@@ -245,15 +245,19 @@ const Cart = () => {
   }
 
   const handleDecreaseCart = (product) => {
-   if (product.quantity > 1) {
-     dispatch(decreaseCart(product))
-   } else {
-     dispatch(removeFromCart(product))
-   }
+    if (product.quantity > 1) {
+      dispatch(decreaseCart(product))
+    } else {
+      dispatch(removeFromCart(product))
+    }
   }
 
-  const handleIncreaseCart = (product) => {
-    dispatch(increaseCart(product))
+  const handleIncreaseCart = () => {
+    dispatch(increaseCart())
+  }
+
+  const handleClearCart = (product) => {
+    dispatch(clearCart(product))
   }
 
   return (
@@ -266,7 +270,7 @@ const Cart = () => {
           <TopButton>
             <CustomLink to="/">CONTINUE SHOPPING</CustomLink>
           </TopButton>
-          <TopButton type="filled">
+          <TopButton onClick={() => handleClearCart()} type="filled">
             Clear Cart
             <Delete style={{ fontSize: '16px', paddingLeft: '2px' }} />
           </TopButton>
