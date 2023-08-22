@@ -8,7 +8,7 @@ import { mobile } from '../responsive'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from "react"
 import { publicRequest } from "../requestMethods"
-import { addProduct } from "../redux/cartSlice"
+import { addToCart } from '../redux/cartSlice'
 import { useDispatch } from 'react-redux'
 
 const Container = styled.div`
@@ -155,9 +155,7 @@ const Product = () => {
 
    const handleAddToCart = () => {
     //update cart
-    dispatch(
-      addProduct({ ...product, quantity, color, size })
-    )
+    dispatch(addToCart({ ...product, quantity, color, size }))
     navigate('/cart')
    }
 

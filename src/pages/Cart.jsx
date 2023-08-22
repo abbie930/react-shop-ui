@@ -245,7 +245,11 @@ const Cart = () => {
   }
 
   const handleDecreaseCart = (product) => {
-    dispatch(decreaseCart(product))
+   if (product.quantity > 1) {
+     dispatch(decreaseCart(product))
+   } else {
+     dispatch(removeFromCart(product))
+   }
   }
 
   const handleIncreaseCart = (product) => {
