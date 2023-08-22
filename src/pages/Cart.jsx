@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCart, decreaseCart } from '../redux/cartSlice'
+import { removeFromCart, decreaseCart, increaseCart } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div``
@@ -248,6 +248,10 @@ const Cart = () => {
     dispatch(decreaseCart(product))
   }
 
+  const handleIncreaseCart = (product) => {
+    dispatch(increaseCart(product))
+  }
+
   return (
     <Container>
       <Navbar />
@@ -303,7 +307,7 @@ const Cart = () => {
                         <ProductQuantityContainer>
                           <Button onClick={() => handleDecreaseCart(product)}>-</Button>
                           <ProductQuantity>{product.quantity}</ProductQuantity>
-                          <Button>+</Button>
+                          <Button onClick={() => handleIncreaseCart(product)}>+</Button>
                         </ProductQuantityContainer>
                         <ProductPrice>{product.price * product.quantity}</ProductPrice>
                       </PriceDetail>

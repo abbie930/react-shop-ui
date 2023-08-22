@@ -90,9 +90,40 @@ const cartSlice = createSlice({
         localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
         localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
       }
+    },
+    increaseCart: (state, action) => {
+      // 查找要增加数量的商品在购物车中的索引
+      const itemIndex = state.cartItems.findIndex((cartItem) => cartItem._id === action.payload._id)
+
+      // 如果找到了该商品
+      if (itemIndex !== -1) {
+        // 创建一个新的商品对象，避免直接修改原始状态
+        const updatedCartItem = { ...state.cartItems[itemIndex] }
+
+        // 增加数量并更新总价
+        updatedCartItem.quantity += 1
+        state.cartTotal += action.payload.price
+
+        // 显示信息
+        toast.info(`Increased ${action.payload.title} cart quantity`, {
+          position: 'bottom-left'
+        })
+
+        // 创建一个新的购物车商品数组，用于更新状态
+        const updatedCartItems = [...state.cartItems]
+        updatedCartItems[itemIndex] = updatedCartItem
+
+        // 更新状态
+        state.cartItems = updatedCartItems
+
+        // 更新本地存储
+        localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+        localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
+        localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
+      }
     }
   }
 })
 
-export const { addProduct, setSize, removeFromCart, decreaseCart } = cartSlice.actions
+export const { addProduct, setSize, removeFromCart, decreaseCart, increaseCart } = cartSlice.actions
 export default cartSlice.reducer
