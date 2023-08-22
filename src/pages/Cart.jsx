@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCart } from '../redux/cartSlice'
+import { removeFromCart, decreaseCart } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div``
@@ -238,10 +238,14 @@ const SummaryNote = styled.p`
 const Cart = () => {
   const cart = useSelector((state) => state.cart)
   console.log('cart', cart)
-
   const dispatch = useDispatch()
+
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product))
+  }
+
+  const handleDecreaseCart = (product) => {
+    dispatch(decreaseCart(product))
   }
 
   return (
@@ -297,7 +301,7 @@ const Cart = () => {
                       </ProductDetail>
                       <PriceDetail>
                         <ProductQuantityContainer>
-                          <Button>-</Button>
+                          <Button onClick={() => handleDecreaseCart(product)}>-</Button>
                           <ProductQuantity>{product.quantity}</ProductQuantity>
                           <Button>+</Button>
                         </ProductQuantityContainer>
@@ -329,7 +333,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>NTD {cart.cartTotal}</SummaryItemPrice>
             </SummaryItem>
-            <PayButton cartItems={cart.products} />
+            <PayButton cartItems={cart.cartItems} />
             <SummaryNote>Taxes and shipping calculated at checkout.</SummaryNote>
           </Summary>
         </Bottom>

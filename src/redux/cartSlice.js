@@ -51,9 +51,48 @@ const cartSlice = createSlice({
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
       localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
       localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
+    },
+    decreaseCart: (state, action) => {
+      // 查找要減少數量的商品在購物車中的索引
+      const itemIndex = state.cartItems.findIndex((cartItem) => cartItem._id === action.payload._id)
+      // 如果找到了商品
+      if (itemIndex !== -1) {
+        // 新增一個新的商品變數，避免直接修改原始狀態
+        const updatedCartItem = { ...state.cartItems[itemIndex] }
+
+        // 如果商品數量大於 1，減少數量並更新價錢
+        if (updatedCartItem.quantity > 1) {
+          updatedCartItem.quantity -= 1
+          state.cartTotal -= action.payload.price
+          // decreased msg
+          toast.info(`Decreased ${action.payload.title} cart quantity`, {
+            position: 'bottom-left'
+          })
+        } else {
+          // 從購物車中刪除商品，並更新總價和購物車數量
+          state.cartTotal -= action.payload.price
+          state.cartQuantity -= 1
+          // removed msg
+          toast.error(`${action.payload.title} removed from cart`, {
+            position: 'bottom-left'
+          })
+        }
+
+        // 新增一個新的購物車商品變數，用於更新狀態
+        const updatedCartItems = [...state.cartItems]
+        updatedCartItems[itemIndex] = updatedCartItem
+
+        // 更新狀態
+        state.cartItems = updatedCartItems
+
+        // update local storage
+        localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+        localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
+        localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
+      }
     }
   }
 })
 
-export const { addProduct, setSize, removeFromCart } = cartSlice.actions
+export const { addProduct, setSize, removeFromCart, decreaseCart } = cartSlice.actions
 export default cartSlice.reducer
