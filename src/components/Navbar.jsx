@@ -109,7 +109,7 @@ const Button = styled.button`
 `
 
 const Navbar = () => {
-  const quantity = useSelector((state) => state.cart.quantity)
+  const quantity = useSelector((state) => state.cart.cartQuantity)
 
   // 更新expanded狀態
   const [expanded, setExpanded] = useState(false)

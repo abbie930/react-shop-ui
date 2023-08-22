@@ -5,7 +5,8 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { removeFromCart } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div``
@@ -237,6 +238,12 @@ const SummaryNote = styled.p`
 const Cart = () => {
   const cart = useSelector((state) => state.cart)
   console.log('cart', cart)
+
+  const dispatch = useDispatch()
+  const handleRemoveFromCart = (product) => {
+    dispatch(removeFromCart(product))
+  }
+
   return (
     <Container>
       <Navbar />
@@ -257,7 +264,7 @@ const Cart = () => {
             <InfoTitleContainer>
               <InfoTitle type="title">Item Summary</InfoTitle>
               <InfoSubtitleContainer>
-                <InfoTitle>Shopping Bag({cart.quantity})</InfoTitle>
+                <InfoTitle>Shopping Bag({cart.cartQuantity})</InfoTitle>
                 <InfoTitle>Your Wishlist(0)</InfoTitle>
               </InfoSubtitleContainer>
             </InfoTitleContainer>
@@ -267,7 +274,7 @@ const Cart = () => {
             ) : (
               <>
                 {cart.cartItems.map((product, index) => (
-                  <div key={product._id}>
+                  <div key={`${product._id}-${product.color}`}>
                     <Product>
                       <ProductDetail>
                         <Image src={product.img} alt={product.title} />
@@ -282,7 +289,7 @@ const Cart = () => {
                           <ProductSize>
                             <b>Size:</b> {product.size}
                           </ProductSize>
-                          <RemoveButton>
+                          <RemoveButton onClick={() => handleRemoveFromCart(product)}>
                             Remove
                             <Delete style={{ fontSize: '16px', paddingLeft: '1px' }} />
                           </RemoveButton>
@@ -308,7 +315,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>NTD {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>NTD {cart.cartTotal}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -320,7 +327,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>NTD {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>NTD {cart.cartTotal}</SummaryItemPrice>
             </SummaryItem>
             <PayButton cartItems={cart.products} />
             <SummaryNote>Taxes and shipping calculated at checkout.</SummaryNote>
