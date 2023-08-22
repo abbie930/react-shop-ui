@@ -109,7 +109,7 @@ const Button = styled.button`
 `
 
 const Navbar = () => {
-  const quantity = useSelector((state) => state.cart.cartQuantity)
+  const { cartTotalQuantity } = useSelector((state) => state.cart)
 
   // 更新expanded狀態
   const [expanded, setExpanded] = useState(false)
@@ -176,7 +176,7 @@ const Navbar = () => {
           )}
           <Link to="/cart">
             <MenuItem>
-              <Badge overlap="rectangular" badgeContent={quantity} color="primary">
+              <Badge overlap="rectangular" badgeContent={cartTotalQuantity} color="primary">
                 <ShoppingCartOutlined />
               </Badge>
             </MenuItem>

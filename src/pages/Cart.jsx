@@ -5,8 +5,9 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import PayButton from '../components/PayButton'
 import { mobile } from '../responsive'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCart, decreaseCart, increaseCart, clearCart } from '../redux/cartSlice'
+import { removeFromCart, decreaseCart, increaseCart, clearCart, getTotals } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div``
@@ -240,6 +241,10 @@ const Cart = () => {
   console.log('cart', cart)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(getTotals())
+  }, [cart, dispatch])
+
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product))
   }
@@ -252,8 +257,8 @@ const Cart = () => {
     }
   }
 
-  const handleIncreaseCart = () => {
-    dispatch(increaseCart())
+  const handleIncreaseCart = (product) => {
+    dispatch(increaseCart(product))
   }
 
   const handleClearCart = (product) => {
@@ -280,7 +285,7 @@ const Cart = () => {
             <InfoTitleContainer>
               <InfoTitle type="title">Item Summary</InfoTitle>
               <InfoSubtitleContainer>
-                <InfoTitle>Shopping Bag({cart.cartQuantity})</InfoTitle>
+                <InfoTitle>Shopping Bag({cart.cartTotalQuantity})</InfoTitle>
                 <InfoTitle>Your Wishlist(0)</InfoTitle>
               </InfoSubtitleContainer>
             </InfoTitleContainer>
@@ -331,7 +336,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>NTD {cart.cartTotal}</SummaryItemPrice>
+              <SummaryItemPrice>NTD {cart.cartTotalAmount}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -343,7 +348,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>NTD {cart.cartTotal}</SummaryItemPrice>
+              <SummaryItemPrice>NTD {cart.cartTotalAmount}</SummaryItemPrice>
             </SummaryItem>
             <PayButton cartItems={cart.cartItems} />
             <SummaryNote>Taxes and shipping calculated at checkout.</SummaryNote>

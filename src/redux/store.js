@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
-import cartReducer from './cartSlice'
+import cartReducer, { getTotals } from './cartSlice'
 import userReducer from './userSlice'
 import authReducer from './authSlice'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
@@ -29,5 +29,7 @@ export const store = configureStore({
       }
     })
 })
+
+store.dispatch(getTotals())
 
 export let persistor = persistStore(store)

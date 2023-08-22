@@ -5,8 +5,8 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
-    cartQuantity: localStorage.getItem('cartQuantity') ? JSON.parse(localStorage.getItem('cartQuantity')) : 0,
-    cartTotal: localStorage.getItem('cartTotal') ? JSON.parse(localStorage.getItem('cartTotal')) : 0
+    cartTotalQuantity: 0,
+    cartTotalAmount: 0
   },
   reducers: {
     addToCart: (state, action) => {
@@ -19,23 +19,21 @@ const cartSlice = createSlice({
       if (existingItem) {
         // 如果商品已經在購物車裡，數量直接增加指定的數量
         existingItem.quantity += action.payload.quantity
-        state.cartTotal += action.payload.price * action.payload.quantity
+        state.cartTotalAmount += action.payload.price * action.payload.quantity
         toast.success(`Increased ${action.payload.title} cart quantity`, {
           position: 'bottom-left'
         })
       } else {
         // 如果商品不存在購物車裡，就加到購物車
         state.cartItems.push({ ...action.payload, identifier: itemIdentifier })
-        state.cartQuantity += 1
-        state.cartTotal += action.payload.price * action.payload.quantity
+        state.cartTotalQuantity += 1
+        state.cartTotalAmount += action.payload.price * action.payload.quantity
         toast.success(`${action.payload.title} added to cart`, {
           position: 'bottom-left'
         })
       }
       // update local storage
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-      localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
-      localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
     },
     setSize: (state, action) => {
       state.size = action.payload
@@ -51,8 +49,8 @@ const cartSlice = createSlice({
       })
       console.log('nextCart', nextCartItems)
       state.cartItems = nextCartItems
-      state.cartQuantity -= 1
-      state.cartTotal -= action.payload.price * action.payload.quantity
+      state.cartTotalQuantity -= 1
+      state.cartTotalAmount -= action.payload.price * action.payload.quantity
 
       // delete msg
       toast.error(`${action.payload.title} removed from cart`, {
@@ -61,8 +59,6 @@ const cartSlice = createSlice({
 
       // update local storage
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-      localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
-      localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
     },
     decreaseCart: (state, action) => {
       // 查找要減少數量的商品在購物車中的索引
@@ -76,7 +72,7 @@ const cartSlice = createSlice({
         // 如果商品數量大於 1，減少數量並更新價錢
         if (updatedCartItem.quantity > 1) {
           updatedCartItem.quantity -= 1
-          state.cartTotal -= action.payload.price
+          state.cartTotalAmount -= action.payload.price
           // decreased msg
           toast.info(`Decreased ${action.payload.title} cart quantity`, {
             position: 'bottom-left'
@@ -92,12 +88,10 @@ const cartSlice = createSlice({
 
         // update local storage
         localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-        localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
-        localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
       }
       // 更新購物車圖示上的數量，確保不會出現負數
-      if (state.cartQuantity < 0) {
-        state.cartQuantity = 0
+      if (state.cartTotalQuantity < 0) {
+        state.cartTotalQuantity = 0
       }
     },
     increaseCart: (state, action) => {
@@ -108,7 +102,7 @@ const cartSlice = createSlice({
         const updatedCartItem = { ...state.cartItems[itemIndex] }
 
         updatedCartItem.quantity += 1
-        state.cartTotal += action.payload.price
+        state.cartTotalAmount += action.payload.price
 
         // Increased msg
         toast.info(`Increased ${action.payload.title} cart quantity`, {
@@ -122,8 +116,6 @@ const cartSlice = createSlice({
 
         // update localStorage
         localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-        localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
-        localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
       }
     },
     clearCart: (state, action) => {
@@ -133,11 +125,34 @@ const cartSlice = createSlice({
       })
       // update localStorage
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-      localStorage.setItem('cartQuantity', JSON.stringify(state.cartQuantity))
-      localStorage.setItem('cartTotal', JSON.stringify(state.cartTotal))
+    },
+    getTotals(state, action) {
+      // 遍歷購物車中的每個商品
+      let { total, quantity } = state.cartItems.reduce(
+        (cartTotal, cartItem) => {
+          // 選取商品屬性中的價格和數量
+          const { price, quantity: cartQuantity } = cartItem
+          // 計算這個商品的總金額
+          const itemTotal = price * cartQuantity
+
+          // 每次迭代中，累加所有商品的總金額和總數量
+          cartTotal.total += itemTotal
+          cartTotal.quantity += cartQuantity
+
+          return cartTotal
+        },
+        {
+          total: 0,
+          quantity: 0
+        }
+      )
+      // 更新狀態
+      state.cartTotalQuantity = quantity
+      state.cartTotalAmount = total
     }
   }
 })
 
-export const { addToCart, setSize, removeFromCart, decreaseCart, increaseCart, clearCart } = cartSlice.actions
+export const { addToCart, setSize, removeFromCart, decreaseCart, increaseCart, clearCart, getTotals } =
+  cartSlice.actions
 export default cartSlice.reducer
